@@ -1,195 +1,401 @@
-repeat task.wait() until game:IsLoaded()
+-- ts file was generated at discord.gg/25ms
 
-local Players = game:GetService("Players")
-local UIS = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
-local VirtualUser = game:GetService("VirtualUser")
+repeat
+    task.wait()
+until game:IsLoaded() and (game.Players and (game.Players.LocalPlayer and game.Players.LocalPlayer.Character))
 
-local Player = Players.LocalPlayer
-local PlayerGui = Player:WaitForChild("PlayerGui")
+if getgenv().AntiAFKActive then
+    warn('[Anti-AFK] Already running. Destroying previous instance...')
 
--- GUI
+    if game.CoreGui:FindFirstChild('AntiAFKGui') then
+        game.CoreGui.AntiAFKGui:Destroy()
+    end
 
-local Gui = Instance.new("ScreenGui")
-Gui.Name = "AntiAFKGui"
-Gui.Parent = PlayerGui
-Gui.ResetOnSpawn = false
+    getgenv().AntiAFKActive = false
+    getgenv().TimerRunning = false
 
--- MAIN UI
+    task.wait(0.5)
+end
 
-local Main = Instance.new("Frame")
-Main.Parent = Gui
-Main.Size = UDim2.new(0,260,0,160)
-Main.Position = UDim2.new(0.02,0,0.3,0)
-Main.BackgroundColor3 = Color3.fromRGB(18,18,18)
-Main.BorderSizePixel = 0
+getgenv().AntiAFKActive = true
 
-local Top = Instance.new("Frame")
-Top.Parent = Main
-Top.Size = UDim2.new(1,0,0,32)
-Top.BackgroundColor3 = Color3.fromRGB(24,24,24)
-Top.BorderSizePixel = 0
+local _Players = game:GetService('Players')
+local _CoreGui = game:GetService('CoreGui')
+local _TweenService = game:GetService('TweenService')
+local _RunService = game:GetService('RunService')
+local _UserInputService = game:GetService('UserInputService')
+local _VirtualUser = game:GetService('VirtualUser')
+local _Stats = game:GetService('Stats')
+local _LocalPlayer = _Players.LocalPlayer
+local u9 = {
+    UpdateInterval = 1,
+    FPSUpdateRate = 0.1,
+    DragSmoothness = 0.04,
+}
 
-local Title = Instance.new("TextLabel")
-Title.Parent = Top
-Title.Size = UDim2.new(1,-64,1,0)
-Title.Position = UDim2.new(0,8,0,0)
-Title.Text = "L.M.P | ANTI-AFK"
-Title.TextColor3 = Color3.new(1,1,1)
-Title.BackgroundTransparency = 1
-Title.Font = Enum.Font.SourceSans
-Title.TextSize = 14
-Title.TextXAlignment = Enum.TextXAlignment.Left
+-- Función principal de la UI (Modificada solo para añadir los nuevos botones)
+local u30, v31, u32, u33, u34, u35, u36, _TextLabel8 = (function()
+    local _ScreenGui = Instance.new('ScreenGui')
+    local _Frame = Instance.new('Frame')
+    local _UICorner = Instance.new('UICorner')
+    local _UIStroke = Instance.new('UIStroke')
+    local _Frame2 = Instance.new('Frame')
+    local _TextLabel = Instance.new('TextLabel')
+    local _TextButton = Instance.new('TextButton')
+    local _Frame3 = Instance.new('Frame')
+    local _Frame4 = Instance.new('Frame')
+    local _TextLabel2 = Instance.new('TextLabel')
+    local _TextLabel3 = Instance.new('TextLabel')
+    local _TextLabel4 = Instance.new('TextLabel')
+    local _TextLabel5 = Instance.new('TextLabel')
+    local _TextLabel6 = Instance.new('TextLabel')
+    local _TextLabel7 = Instance.new('TextLabel')
+    local _Frame5 = Instance.new('Frame')
+    local _UICorner2 = Instance.new('UICorner')
+    
+    -- NUEVOS ELEMENTOS: Botón Minimizar y Botón Flotante
+    local _MinButton = Instance.new('TextButton')
+    local _FloatingButton = Instance.new('Frame')
+    local _FloatStroke = Instance.new('UIStroke')
+    local _FloatGradient = Instance.new('UIGradient')
+    local _AssetContainer = Instance.new('Frame')
+    local _Img1 = Instance.new('ImageLabel')
+    local _Img2 = Instance.new('ImageLabel')
 
--- BOTON CERRAR
+    _ScreenGui.Name = 'AntiAFKGui'
+    _ScreenGui.Parent = _CoreGui
+    _ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-local Close = Instance.new("TextButton")
-Close.Parent = Top
-Close.Size = UDim2.new(0,32,0,32)
-Close.Position = UDim2.new(1,-32,0,0)
-Close.Text = "X"
-Close.BackgroundTransparency = 1
-Close.TextColor3 = Color3.new(1,1,1)
+    _Frame.Name = 'MainFrame'
+    _Frame.Parent = _ScreenGui
+    _Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+    _Frame.Position = UDim2.new(0.02, 0, 0.3, 0)
+    _Frame.Size = UDim2.new(0, 260, 0, 160)
+    _Frame.Active = true
 
-Close.MouseButton1Click:Connect(function()
-    Gui:Destroy()
+    _UICorner.CornerRadius = UDim.new(0, 4)
+    _UICorner.Parent = _Frame
+
+    _UIStroke.Color = Color3.fromRGB(40, 40, 40)
+    _UIStroke.Thickness = 1
+    _UIStroke.Parent = _Frame
+
+    _Frame2.Name = 'TopBar'
+    _Frame2.Parent = _Frame
+    _Frame2.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+    _Frame2.Size = UDim2.new(1, 0, 0, 32)
+
+    _TextLabel.Name = 'Title'
+    _TextLabel.Parent = _Frame2
+    _TextLabel.BackgroundTransparency = 1
+    _TextLabel.Position = UDim2.new(0, 12, 0, 0)
+    _TextLabel.Size = UDim2.new(0.5, 0, 1, 0)
+    _TextLabel.Font = Enum.Font.SourceSans
+    _TextLabel.Text = 'L.M.P | ANTI-AFK'
+    _TextLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
+    _TextLabel.TextSize = 13
+    _TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+    _TextButton.Name = 'CloseButton'
+    _TextButton.Parent = _Frame2
+    _TextButton.BackgroundTransparency = 1
+    _TextButton.Position = UDim2.new(1, -32, 0, 0)
+    _TextButton.Size = UDim2.new(0, 32, 0, 32)
+    _TextButton.Font = Enum.Font.SourceSans
+    _TextButton.Text = 'X'
+    _TextButton.TextColor3 = Color3.fromRGB(180, 180, 180)
+    _TextButton.TextSize = 14
+
+    -- CONFIGURACIÓN DEL BOTÓN MINIMIZAR "□"
+    _MinButton.Name = 'MinimizeButton'
+    _MinButton.Parent = _Frame2
+    _MinButton.BackgroundTransparency = 1
+    _MinButton.Position = UDim2.new(1, -64, 0, 0)
+    _MinButton.Size = UDim2.new(0, 32, 0, 32)
+    _MinButton.Font = Enum.Font.SourceSans
+    _MinButton.Text = '□'
+    _MinButton.TextColor3 = Color3.fromRGB(180, 180, 180)
+    _MinButton.TextSize = 18
+
+    _Frame3.Name = 'Content'
+    _Frame3.Parent = _Frame
+    _Frame3.BackgroundTransparency = 1
+    _Frame3.Position = UDim2.new(0, 0, 0, 32)
+    _Frame3.Size = UDim2.new(1, 0, 1, -32)
+
+    _Frame4.Name = 'StatsFrame'
+    _Frame4.Parent = _Frame3
+    _Frame4.BackgroundTransparency = 1
+    _Frame4.Position = UDim2.new(0, 12, 0, 12)
+    _Frame4.Size = UDim2.new(1, -24, 0, 75)
+
+    _TextLabel2.Name = 'TimerLabel'
+    _TextLabel2.Parent = _Frame4
+    _TextLabel2.BackgroundTransparency = 1
+    _TextLabel2.Size = UDim2.new(0, 80, 0, 20)
+    _TextLabel2.Font = Enum.Font.SourceSans
+    _TextLabel2.Text = 'UPTIME'
+    _TextLabel2.TextColor3 = Color3.fromRGB(140, 140, 140)
+    _TextLabel2.TextSize = 13
+    _TextLabel2.TextXAlignment = Enum.TextXAlignment.Left
+
+    _TextLabel3.Name = 'TimerValue'
+    _TextLabel3.Parent = _Frame4
+    _TextLabel3.BackgroundTransparency = 1
+    _TextLabel3.Position = UDim2.new(0, 80, 0, 0)
+    _TextLabel3.Size = UDim2.new(1, -80, 0, 20)
+    _TextLabel3.Font = Enum.Font.SourceSans
+    _TextLabel3.Text = '00:00:00'
+    _TextLabel3.TextColor3 = Color3.fromRGB(240, 240, 240)
+    _TextLabel3.TextSize = 13
+    _TextLabel3.TextXAlignment = Enum.TextXAlignment.Right
+
+    _TextLabel4.Name = 'FPSLabel'
+    _TextLabel4.Parent = _Frame4
+    _TextLabel4.BackgroundTransparency = 1
+    _TextLabel4.Position = UDim2.new(0, 0, 0, 25)
+    _TextLabel4.Size = UDim2.new(0, 80, 0, 20)
+    _TextLabel4.Font = Enum.Font.SourceSans
+    _TextLabel4.Text = 'FPS'
+    _TextLabel4.TextColor3 = Color3.fromRGB(140, 140, 140)
+    _TextLabel4.TextSize = 13
+    _TextLabel4.TextXAlignment = Enum.TextXAlignment.Left
+
+    _TextLabel5.Name = 'FPSValue'
+    _TextLabel5.Parent = _Frame4
+    _TextLabel5.BackgroundTransparency = 1
+    _TextLabel5.Position = UDim2.new(0, 80, 0, 25)
+    _TextLabel5.Size = UDim2.new(1, -80, 0, 20)
+    _TextLabel5.Font = Enum.Font.SourceSans
+    _TextLabel5.Text = '0'
+    _TextLabel5.TextColor3 = Color3.fromRGB(240, 240, 240)
+    _TextLabel5.TextSize = 13
+    _TextLabel5.TextXAlignment = Enum.TextXAlignment.Right
+
+    _TextLabel6.Name = 'PingLabel'
+    _TextLabel6.Parent = _Frame4
+    _TextLabel6.BackgroundTransparency = 1
+    _TextLabel6.Position = UDim2.new(0, 0, 0, 50)
+    _TextLabel6.Size = UDim2.new(0, 80, 0, 20)
+    _TextLabel6.Font = Enum.Font.SourceSans
+    _TextLabel6.Text = 'PING'
+    _TextLabel6.TextColor3 = Color3.fromRGB(140, 140, 140)
+    _TextLabel6.TextSize = 13
+    _TextLabel6.TextXAlignment = Enum.TextXAlignment.Left
+
+    _TextLabel7.Name = 'PingValue'
+    _TextLabel7.Parent = _Frame4
+    _TextLabel7.BackgroundTransparency = 1
+    _TextLabel7.Position = UDim2.new(0, 80, 0, 50)
+    _TextLabel7.Size = UDim2.new(1, -80, 0, 20)
+    _TextLabel7.Font = Enum.Font.SourceSans
+    _TextLabel7.Text = '0 ms'
+    _TextLabel7.TextColor3 = Color3.fromRGB(240, 240, 240)
+    _TextLabel7.TextSize = 13
+    _TextLabel7.TextXAlignment = Enum.TextXAlignment.Right
+
+    _Frame5.Name = 'StatusIndicator'
+    _Frame5.Parent = _Frame
+    _Frame5.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+    _Frame5.Position = UDim2.new(0, 18, 1, -22)
+    _Frame5.Size = UDim2.new(0, 6, 0, 6)
+
+    _UICorner2.CornerRadius = UDim.new(1, 0)
+    _UICorner2.Parent = _Frame5
+
+    -- CONFIGURACIÓN DEL BOTÓN FLOTANTE (Cuadrado con borde especial)
+    _FloatingButton.Name = 'FloatingButton'
+    _FloatingButton.Parent = _ScreenGui
+    _FloatingButton.Size = UDim2.new(0, 60, 0, 60)
+    _FloatingButton.Position = UDim2.new(0.5, -30, 0.1, 0)
+    _FloatingButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    _FloatingButton.Visible = false
+    _FloatingButton.Active = true
+
+    _FloatStroke.Parent = _FloatingButton
+    _FloatStroke.Thickness = 1.2
+    _FloatStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+    _FloatGradient.Parent = _FloatStroke
+    _FloatGradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),    -- Rojo izquierda
+        ColorSequenceKeypoint.new(0.48, Color3.fromRGB(255, 0, 0)),
+        ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 255, 255)), -- Luz blanca
+        ColorSequenceKeypoint.new(0.52, Color3.fromRGB(0, 0, 255)),   -- Azul derecha
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 255))
+    })
+
+    _AssetContainer.Name = 'AssetContainer'
+    _AssetContainer.Parent = _FloatingButton
+    _AssetContainer.Size = UDim2.new(0.8, 0, 0.8, 0)
+    _AssetContainer.Position = UDim2.new(0.1, 0, 0.1, 0)
+    _AssetContainer.BackgroundTransparency = 1
+
+    _Img1.Parent = _AssetContainer
+    _Img1.Size = UDim2.new(0.5, 0, 1, 0)
+    _Img1.Image = 'rbxassetid://74954519069199'
+    _Img1.BackgroundTransparency = 1
+
+    _Img2.Parent = _AssetContainer
+    _Img2.Position = UDim2.new(0.5, 0, 0, 0)
+    _Img2.Size = UDim2.new(0.5, 0, 1, 0)
+    _Img2.Image = 'rbxassetid://108256864313822'
+    _Img2.BackgroundTransparency = 1
+
+    -- Animación de la luz giratoria blanca
+    task.spawn(function()
+        while true do
+            _FloatGradient.Rotation = (_FloatGradient.Rotation + 3) % 360
+            task.wait(0.02)
+        end
+    end)
+
+    -- Lógica de ocultar y mostrar con doble click
+    _MinButton.MouseButton1Click:Connect(function()
+        _Frame.Visible = false
+        _FloatingButton.Visible = true
+    end)
+
+    local lastClick = 0
+    _FloatingButton.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            local now = tick()
+            if now - lastClick < 0.3 then
+                _Frame.Visible = true
+                _FloatingButton.Visible = false
+            end
+            lastClick = now
+        end
+    end)
+
+    return _ScreenGui, _Frame, _TextButton, _TextLabel3, _TextLabel5, _TextLabel7, _Frame5, nil, _FloatingButton
+end)()
+
+-- El original no usaba el último retorno, pero aquí pasamos el botón flotante como el noveno argumento si fuera necesario.
+-- Sin embargo, para mantener compatibilidad con tu estructura original de variables:
+local u30, v31, u32, u33, u34, u35, u36 = u30, v31, u32, u33, u34, u35, u36
+local vFloating = (function()
+    for _, v in pairs(u30:GetChildren()) do
+        if v.Name == 'FloatingButton' then return v end
+    end
+end)()
+
+game.StarterGui:SetCore('SendNotification', {
+    Title = 'L.M.P | ANTI-AFK',
+    Text = 'System initialized successfully',
+    Duration = 3,
+})
+
+-- FUNCIÓN DE ARRASTRE (Se aplica a la UI original y al nuevo botón)
+local function setupDraggable(p37)
+    local u38 = nil
+    local u39 = nil
+    local u40 = nil
+    local u41 = nil
+    p37.InputBegan:Connect(function(p46)
+        if p46.UserInputType == Enum.UserInputType.MouseButton1 or p46.UserInputType == Enum.UserInputType.Touch then
+            u39 = true
+            u41 = p46.Position
+            u38 = p37.Position
+            p46.Changed:Connect(function()
+                if p46.UserInputState == Enum.UserInputState.End then
+                    u39 = false
+                end
+            end)
+        end
+    end)
+    p37.InputChanged:Connect(function(p47)
+        if p47.UserInputType == Enum.UserInputType.MouseMovement or p47.UserInputType == Enum.UserInputType.Touch then
+            u40 = p47
+        end
+    end)
+    _UserInputService.InputChanged:Connect(function(p48)
+        if p48 == u40 and u39 then
+            local v43 = p48.Position - u41
+            local v44 = UDim2.new(u38.X.Scale, u38.X.Offset + v43.X, u38.Y.Scale, u38.Y.Offset + v43.Y)
+            local v45 = _TweenService:Create(p37, TweenInfo.new(u9.DragSmoothness), {
+                Position = v44,
+            })
+            v45:Play()
+        end
+    end)
+end
+
+setupDraggable(v31)
+setupDraggable(vFloating)
+
+u32.MouseButton1Click:Connect(function()
+    getgenv().AntiAFKActive = false
+    getgenv().TimerRunning = false
+    u30:Destroy()
 end)
 
--- BOTON MINIMIZAR
+-- LÓGICA ANTI-IDLE ORIGINAL (No se eliminó nada)
+_LocalPlayer.Idled:Connect(function()
+    _VirtualUser:CaptureController()
+    _VirtualUser:ClickButton2(Vector2.new())
+    _TweenService:Create(u36, TweenInfo.new(0.15), {
+        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+    }):Play()
+    task.wait(0.15)
+    _TweenService:Create(u36, TweenInfo.new(0.15), {
+        BackgroundColor3 = Color3.fromRGB(46, 204, 113),
+    }):Play()
+end)
 
-local Min = Instance.new("TextButton")
-Min.Parent = Top
-Min.Size = UDim2.new(0,32,0,32)
-Min.Position = UDim2.new(1,-64,0,0)
-Min.Text = "□"
-Min.BackgroundTransparency = 1
-Min.TextColor3 = Color3.new(1,1,1)
+-- LÓGICA DE FPS ORIGINAL
+local u49 = {}
+local u50 = 0
+_RunService.RenderStepped:Connect(function()
+    local v51 = tick()
+    for v52 = #u49, 1, -1 do
+        if u49[v52] < v51 - 1 then
+            table.remove(u49, v52)
+        end
+    end
+    table.insert(u49, v51)
+    if v51 - u50 >= u9.FPSUpdateRate then
+        local v53 = #u49
+        u34.Text = tostring(v53)
+        u50 = v51
+    end
+end)
 
--- BOTON FLOTANTE
-
-local Float = Instance.new("TextButton")
-Float.Parent = Gui
-Float.Size = UDim2.new(0,60,0,60)
-Float.Position = UDim2.new(0.1,0,0.5,0)
-Float.Text = ""
-Float.Visible = false
-Float.BorderSizePixel = 0
-
-local Left = Instance.new("Frame")
-Left.Parent = Float
-Left.Size = UDim2.new(0.5,0,1,0)
-Left.BackgroundColor3 = Color3.fromRGB(255,0,0)
-Left.BorderSizePixel = 0
-
-local Right = Instance.new("Frame")
-Right.Parent = Float
-Right.Size = UDim2.new(0.5,0,1,0)
-Right.Position = UDim2.new(0.5,0,0,0)
-Right.BackgroundColor3 = Color3.fromRGB(0,120,255)
-Right.BorderSizePixel = 0
-
-local Stroke = Instance.new("UIStroke")
-Stroke.Parent = Float
-Stroke.Color = Color3.new(1,1,1)
-Stroke.Thickness = 1
-
--- ICONOS
-
-local Icon1 = Instance.new("ImageLabel")
-Icon1.Parent = Float
-Icon1.BackgroundTransparency = 1
-Icon1.Size = UDim2.new(0,20,0,20)
-Icon1.Position = UDim2.new(0.25,-10,0.5,-10)
-Icon1.Image = "rbxassetid://74954519069199"
-
-local Icon2 = Instance.new("ImageLabel")
-Icon2.Parent = Float
-Icon2.BackgroundTransparency = 1
-Icon2.Size = UDim2.new(0,20,0,20)
-Icon2.Position = UDim2.new(0.75,-10,0.5,-10)
-Icon2.Image = "rbxassetid://108256864313822"
-
--- BORDE ANIMADO
-
+-- LÓGICA DE PING ORIGINAL
 task.spawn(function()
-    while true do
-        TweenService:Create(Stroke,TweenInfo.new(1),{Transparency=0.7}):Play()
+    while getgenv().AntiAFKActive do
+        local v54, v55 = pcall(function()
+            return _Stats.PerformanceStats.Ping:GetValue()
+        end)
+        if v54 and v55 then
+            u35.Text = math.floor(v55) .. ' ms'
+        else
+            u35.Text = 'N/A'
+        end
+        task.wait(u9.UpdateInterval)
+    end
+end)
+
+-- LÓGICA DE UPTIME ORIGINAL
+local u56 = 0
+local u57 = 0
+local u58 = 0
+getgenv().TimerRunning = true
+task.spawn(function()
+    while getgenv().TimerRunning do
         task.wait(1)
-        TweenService:Create(Stroke,TweenInfo.new(1),{Transparency=0}):Play()
-        task.wait(1)
+        if getgenv().AntiAFKActive then
+            u56 = u56 + 1
+            if u56 >= 60 then
+                u56 = 0
+                u57 = u57 + 1
+            end
+            if u57 >= 60 then
+                u57 = 0
+                u58 = u58 + 1
+            end
+            local v59 = string.format('%02d:%02d:%02d', u58, u57, u56)
+            u33.Text = v59
+        end
     end
-end)
-
--- MINIMIZAR
-
-Min.MouseButton1Click:Connect(function()
-    Main.Visible = false
-    Float.Visible = true
-end)
-
--- DOBLE CLICK
-
-local LastClick = 0
-
-Float.MouseButton1Click:Connect(function()
-
-    local t = tick()
-
-    if t - LastClick < 0.35 then
-        Main.Visible = true
-        Float.Visible = false
-    end
-
-    LastClick = t
-
-end)
-
--- DRAG
-
-local dragging
-local dragStart
-local startPos
-
-Float.InputBegan:Connect(function(input)
-
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = Float.Position
-    end
-
-end)
-
-UIS.InputChanged:Connect(function(input)
-
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-
-        local delta = input.Position - dragStart
-
-        Float.Position = UDim2.new(
-            startPos.X.Scale,
-            startPos.X.Offset + delta.X,
-            startPos.Y.Scale,
-            startPos.Y.Offset + delta.Y
-        )
-
-    end
-
-end)
-
-UIS.InputEnded:Connect(function(input)
-
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
-    end
-
-end)
-
--- ANTI AFK
-
-Player.Idled:Connect(function()
-
-    VirtualUser:CaptureController()
-    VirtualUser:ClickButton2(Vector2.new())
-
 end)
