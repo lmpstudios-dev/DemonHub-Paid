@@ -1,0 +1,361 @@
+-- ts file was generated at discord.gg/25ms
+
+repeat
+    task.wait()
+until game:IsLoaded() and (game.Players and (game.Players.LocalPlayer and game.Players.LocalPlayer.Character))
+
+if getgenv().AntiAFKActive then
+    warn('[Anti-AFK] Already running. Destroying previous instance...')
+
+    if game.CoreGui:FindFirstChild('AntiAFKGui') then
+        game.CoreGui.AntiAFKGui:Destroy()
+    end
+
+    getgenv().AntiAFKActive = false
+    getgenv().TimerRunning = false
+
+    task.wait(0.5)
+end
+
+getgenv().AntiAFKActive = true
+
+local _Players = game:GetService('Players')
+local _CoreGui = game:GetService('CoreGui')
+local _TweenService = game:GetService('TweenService')
+local _RunService = game:GetService('RunService')
+local _UserInputService = game:GetService('UserInputService')
+local _VirtualUser = game:GetService('VirtualUser')
+local _Stats = game:GetService('Stats')
+local _LocalPlayer = _Players.LocalPlayer
+local u9 = {
+    UpdateInterval = 1,
+    FPSUpdateRate = 0.1,
+    DragSmoothness = 0.04,
+}
+local u30, v31, u32, u33, u34, u35, u36, _ = (function()
+    local _ScreenGui = Instance.new('ScreenGui')
+    local _Frame = Instance.new('Frame')
+    local _UICorner = Instance.new('UICorner')
+    local _UIStroke = Instance.new('UIStroke')
+    local _Frame2 = Instance.new('Frame')
+    local _TextLabel = Instance.new('TextLabel')
+    local _TextButton = Instance.new('TextButton')
+    local _Frame3 = Instance.new('Frame')
+    local _Frame4 = Instance.new('Frame')
+    local _TextLabel2 = Instance.new('TextLabel')
+    local _TextLabel3 = Instance.new('TextLabel')
+    local _TextLabel4 = Instance.new('TextLabel')
+    local _TextLabel5 = Instance.new('TextLabel')
+    local _TextLabel6 = Instance.new('TextLabel')
+    local _TextLabel7 = Instance.new('TextLabel')
+    local _Frame5 = Instance.new('Frame')
+    local _Frame6 = Instance.new('Frame')
+    local _TextLabel8 = Instance.new('TextLabel')
+
+    _ScreenGui.Name = 'AntiAFKGui'
+    _ScreenGui.Parent = _CoreGui
+    _ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    _ScreenGui.ResetOnSpawn = false
+    _Frame.Name = 'MainFrame'
+    _Frame.Parent = _ScreenGui
+    _Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+    _Frame.BorderSizePixel = 0
+    _Frame.Position = UDim2.new(0.02, 0, 0.3, 0)
+    _Frame.Size = UDim2.new(0, 260, 0, 160)
+    _Frame.Active = true
+    _UICorner.CornerRadius = UDim.new(0, 4)
+    _UICorner.Parent = _Frame
+    _UIStroke.Color = Color3.fromRGB(40, 40, 40)
+    _UIStroke.Thickness = 1
+    _UIStroke.Parent = _Frame
+    _Frame2.Name = 'TopBar'
+    _Frame2.Parent = _Frame
+    _Frame2.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+    _Frame2.BorderSizePixel = 0
+    _Frame2.Size = UDim2.new(1, 0, 0, 32)
+    _TextLabel.Name = 'Title'
+    _TextLabel.Parent = _Frame2
+    _TextLabel.BackgroundTransparency = 1
+    _TextLabel.Position = UDim2.new(0, 12, 0, 0)
+    _TextLabel.Size = UDim2.new(0.75, 0, 1, 0)
+    _TextLabel.Font = Enum.Font.SourceSans
+    _TextLabel.Text = 'L.M.P | ANTI-AFK'
+    _TextLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
+    _TextLabel.TextSize = 13
+    _TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+    _TextButton.Name = 'CloseButton'
+    _TextButton.Parent = _Frame2
+    _TextButton.BackgroundTransparency = 1
+    _TextButton.Position = UDim2.new(1, -32, 0, 0)
+    _TextButton.Size = UDim2.new(0, 32, 0, 32)
+    _TextButton.Font = Enum.Font.SourceSans
+    _TextButton.Text = 'X'
+    _TextButton.TextColor3 = Color3.fromRGB(180, 180, 180)
+    _TextButton.TextSize = 18
+
+local _MinimizeButton = Instance.new("TextButton")
+
+_MinimizeButton.Name = "MinimizeButton"
+_MinimizeButton.Parent = _Frame2
+_MinimizeButton.BackgroundTransparency = 1
+_MinimizeButton.Position = UDim2.new(1, -64, 0, 0) -- al lado del Close
+_MinimizeButton.Size = UDim2.new(0, 32, 0, 32)
+_MinimizeButton.Font = Enum.Font.SourceSans
+_MinimizeButton.Text = "□"
+_MinimizeButton.TextColor3 = Color3.fromRGB(180,180,180)
+_MinimizeButton.TextSize = 18
+
+    _Frame3.Name = 'Divider'
+    _Frame3.Parent = _Frame
+    _Frame3.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    _Frame3.BorderSizePixel = 0
+    _Frame3.Position = UDim2.new(0, 0, 0, 32)
+    _Frame3.Size = UDim2.new(1, 0, 0, 1)
+    _Frame4.Name = 'StatsFrame'
+    _Frame4.Parent = _Frame
+    _Frame4.BackgroundTransparency = 1
+    _Frame4.Position = UDim2.new(0, 12, 0, 45)
+    _Frame4.Size = UDim2.new(1, -24, 0, 75)
+    _TextLabel2.Name = 'TimerLabel'
+    _TextLabel2.Parent = _Frame4
+    _TextLabel2.BackgroundTransparency = 1
+    _TextLabel2.Position = UDim2.new(0, 0, 0, 0)
+    _TextLabel2.Size = UDim2.new(0, 80, 0, 20)
+    _TextLabel2.Font = Enum.Font.SourceSans
+    _TextLabel2.Text = 'UPTIME'
+    _TextLabel2.TextColor3 = Color3.fromRGB(140, 140, 140)
+    _TextLabel2.TextSize = 12
+    _TextLabel2.TextXAlignment = Enum.TextXAlignment.Left
+    _TextLabel3.Name = 'TimerValue'
+    _TextLabel3.Parent = _Frame4
+    _TextLabel3.BackgroundTransparency = 1
+    _TextLabel3.Position = UDim2.new(0, 80, 0, 0)
+    _TextLabel3.Size = UDim2.new(1, -80, 0, 20)
+    _TextLabel3.Font = Enum.Font.SourceSansSemibold
+    _TextLabel3.Text = '00:00:00'
+    _TextLabel3.TextColor3 = Color3.fromRGB(240, 240, 240)
+    _TextLabel3.TextSize = 12
+    _TextLabel3.TextXAlignment = Enum.TextXAlignment.Right
+    _TextLabel4.Name = 'FPSLabel'
+    _TextLabel4.Parent = _Frame4
+    _TextLabel4.BackgroundTransparency = 1
+    _TextLabel4.Position = UDim2.new(0, 0, 0, 25)
+    _TextLabel4.Size = UDim2.new(0, 80, 0, 20)
+    _TextLabel4.Font = Enum.Font.SourceSans
+    _TextLabel4.Text = 'FPS'
+    _TextLabel4.TextColor3 = Color3.fromRGB(140, 140, 140)
+    _TextLabel4.TextSize = 12
+    _TextLabel4.TextXAlignment = Enum.TextXAlignment.Left
+    _TextLabel5.Name = 'FPSValue'
+    _TextLabel5.Parent = _Frame4
+    _TextLabel5.BackgroundTransparency = 1
+    _TextLabel5.Position = UDim2.new(0, 80, 0, 25)
+    _TextLabel5.Size = UDim2.new(1, -80, 0, 20)
+    _TextLabel5.Font = Enum.Font.SourceSansSemibold
+    _TextLabel5.Text = '0'
+    _TextLabel5.TextColor3 = Color3.fromRGB(240, 240, 240)
+    _TextLabel5.TextSize = 12
+    _TextLabel5.TextXAlignment = Enum.TextXAlignment.Right
+    _TextLabel6.Name = 'PingLabel'
+    _TextLabel6.Parent = _Frame4
+    _TextLabel6.BackgroundTransparency = 1
+    _TextLabel6.Position = UDim2.new(0, 0, 0, 50)
+    _TextLabel6.Size = UDim2.new(0, 80, 0, 20)
+    _TextLabel6.Font = Enum.Font.SourceSans
+    _TextLabel6.Text = 'PING'
+    _TextLabel6.TextColor3 = Color3.fromRGB(140, 140, 140)
+    _TextLabel6.TextSize = 12
+    _TextLabel6.TextXAlignment = Enum.TextXAlignment.Left
+    _TextLabel7.Name = 'PingValue'
+    _TextLabel7.Parent = _Frame4
+    _TextLabel7.BackgroundTransparency = 1
+    _TextLabel7.Position = UDim2.new(0, 80, 0, 50)
+    _TextLabel7.Size = UDim2.new(1, -80, 0, 20)
+    _TextLabel7.Font = Enum.Font.SourceSansSemibold
+    _TextLabel7.Text = '0 ms'
+    _TextLabel7.TextColor3 = Color3.fromRGB(240, 240, 240)
+    _TextLabel7.TextSize = 12
+    _TextLabel7.TextXAlignment = Enum.TextXAlignment.Right
+    _Frame5.Name = 'StatusFrame'
+    _Frame5.Parent = _Frame
+    _Frame5.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+    _Frame5.BorderSizePixel = 0
+    _Frame5.Position = UDim2.new(0, 12, 1, -30)
+    _Frame5.Size = UDim2.new(1, -24, 0, 22)
+
+    local _UICorner2 = Instance.new('UICorner')
+
+    _UICorner2.CornerRadius = UDim.new(0, 3)
+    _UICorner2.Parent = _Frame5
+    _Frame6.Name = 'StatusIndicator'
+    _Frame6.Parent = _Frame5
+    _Frame6.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+    _Frame6.BorderSizePixel = 0
+    _Frame6.Position = UDim2.new(0, 6, 0.5, -3)
+    _Frame6.Size = UDim2.new(0, 6, 0, 6)
+
+    local _UICorner3 = Instance.new('UICorner')
+
+    _UICorner3.CornerRadius = UDim.new(1, 0)
+    _UICorner3.Parent = _Frame6
+    _TextLabel8.Name = 'StatusLabel'
+    _TextLabel8.Parent = _Frame5
+    _TextLabel8.BackgroundTransparency = 1
+    _TextLabel8.Position = UDim2.new(0, 18, 0, 0)
+    _TextLabel8.Size = UDim2.new(1, -18, 1, 0)
+    _TextLabel8.Font = Enum.Font.SourceSans
+    _TextLabel8.Text = 'Active'
+    _TextLabel8.TextColor3 = Color3.fromRGB(180, 180, 180)
+    _TextLabel8.TextSize = 11
+    _TextLabel8.TextXAlignment = Enum.TextXAlignment.Left
+
+    return _ScreenGui, _Frame, _TextButton, _TextLabel3, _TextLabel5, _TextLabel7, _Frame6, _TextLabel8
+end)()
+
+game.StarterGui:SetCore('SendNotification', {
+    Title = 'L.M.P | Anti-AFK',
+    Text = 'System initialized successfully',
+    Duration = 3,
+});
+(function(p37)
+    local u38 = nil
+    local u39 = nil
+    local u40 = nil
+    local u41 = nil
+
+    local function u45(p42)
+        local v43 = p42.Position - u41
+        local v44 = {
+            Position = UDim2.new(u38.X.Scale, u38.X.Offset + v43.X, u38.Y.Scale, u38.Y.Offset + v43.Y),
+        }
+
+        _TweenService:Create(p37, TweenInfo.new(u9.DragSmoothness, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), v44):Play()
+    end
+
+    p37.InputBegan:Connect(function(p46)
+        if p46.UserInputType == Enum.UserInputType.MouseButton1 or p46.UserInputType == Enum.UserInputType.Touch then
+            u39 = true
+            u41 = p46.Position
+            u38 = p37.Position
+
+            p46.Changed:Connect(function()
+                if p46.UserInputState == Enum.UserInputState.End then
+                    u39 = false
+                end
+            end)
+        end
+    end)
+    p37.InputChanged:Connect(function(p47)
+        if p47.UserInputType == Enum.UserInputType.MouseMovement or p47.UserInputType == Enum.UserInputType.Touch then
+            u40 = p47
+        end
+    end)
+    _UserInputService.InputChanged:Connect(function(p48)
+        if p48 == u40 and u39 then
+            u45(p48)
+        end
+    end)
+end)(v31)
+u32.MouseButton1Click:Connect(function()
+    getgenv().AntiAFKActive = false
+    getgenv().TimerRunning = false
+
+    u30:Destroy()
+    game.StarterGui:SetCore('SendNotification', {
+        Title = 'L.M.P | Anti-AFK',
+        Text = 'System disabled',
+        Duration = 3,
+    })
+end)
+u32.MouseEnter:Connect(function()
+    _TweenService:Create(u32, TweenInfo.new(0.2), {
+        TextColor3 = Color3.fromRGB(255, 255, 255),
+    }):Play()
+end)
+u32.MouseLeave:Connect(function()
+    _TweenService:Create(u32, TweenInfo.new(0.2), {
+        TextColor3 = Color3.fromRGB(180, 180, 180),
+    }):Play()
+end)
+_LocalPlayer.Idled:Connect(function()
+    _VirtualUser:CaptureController()
+    _VirtualUser:ClickButton2(Vector2.new())
+    _TweenService:Create(u36, TweenInfo.new(0.15), {
+        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+    }):Play()
+    task.wait(0.15)
+    _TweenService:Create(u36, TweenInfo.new(0.15), {
+        BackgroundColor3 = Color3.fromRGB(46, 204, 113),
+    }):Play()
+end)
+
+local u49 = {}
+local u50 = 0
+
+_RunService.RenderStepped:Connect(function()
+    local v51 = tick()
+
+    for v52 = #u49, 1, -1 do
+        if u49[v52] < v51 - 1 then
+            table.remove(u49, v52)
+        end
+    end
+
+    table.insert(u49, v51)
+
+    if v51 - u50 >= u9.FPSUpdateRate then
+        local v53 = #u49
+
+        u34.Text = tostring(v53)
+        u50 = v51
+    end
+end)
+task.spawn(function()
+    while getgenv().AntiAFKActive do
+        local v54, v55 = pcall(function()
+            return _Stats.PerformanceStats.Ping:GetValue()
+        end)
+
+        if v54 and v55 then
+            u35.Text = math.floor(v55) .. ' ms'
+        else
+            u35.Text = 'N/A'
+        end
+
+        task.wait(u9.UpdateInterval)
+    end
+end)
+
+local u56 = 0
+local u57 = 0
+local u58 = 0
+
+getgenv().TimerRunning = true
+
+task.spawn(function()
+    while getgenv().TimerRunning do
+        task.wait(1)
+
+        if getgenv().AntiAFKActive then
+            u56 = u56 + 1
+
+            if u56 >= 60 then
+                u56 = 0
+                u57 = u57 + 1
+            end
+            if u57 >= 60 then
+                u57 = 0
+                u58 = u58 + 1
+            end
+
+            u33.Text = string.format('%02d:%02d:%02d', u58, u57, u56)
+        end
+    end
+end)
+ end
+end)
+ end
+end)
+d
+end)
+d)
